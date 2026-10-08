@@ -1,0 +1,227 @@
+/* ==========================================================
+   COMPONENTS: product card, quantity selector, pricing tiers,
+   toast, forms, filter chips, specs, tier pill
+   ========================================================== */
+
+/* ---------- Product grid + card ---------- */
+.product-grid { display: grid; grid-template-columns: 1fr; gap: 20px; }
+@media (min-width: 560px) { .product-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1000px) { .product-grid { grid-template-columns: repeat(4, 1fr); } }
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-surface);
+  border: 1px solid var(--color-line);
+  border-radius: var(--radius);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+.product-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow);
+  border-color: var(--color-accent);
+}
+.product-card__media { display: block; aspect-ratio: 1 / 1; overflow: hidden; background: var(--color-primary); }
+.product-card__media img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+.product-card:hover .product-card__media img { transform: scale(1.03); }
+
+.product-card__body { display: flex; flex: 1; flex-direction: column; padding: 18px; }
+.product-card__title { font-size: 1.5rem; }
+.product-card__desc { margin-top: 8px; color: var(--color-muted); font-size: 0.95rem; }
+.product-card__footer { margin-top: auto; padding-top: 18px; }
+.product-card__price-label {
+  display: block;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+.product-card__price {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 700;
+  line-height: 1.1;
+}
+.product-card__bulk { margin: 2px 0 14px; font-size: 0.85rem; color: var(--color-accent-ink); font-weight: 500; }
+
+/* ---------- Quantity selector ---------- */
+.qty {
+  display: inline-flex;
+  align-items: stretch;
+  border: 1.5px solid var(--color-line-strong);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+}
+.qty__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  min-height: 48px;
+  background: none;
+  border: 0;
+  color: var(--color-ink);
+  transition: background-color 0.15s ease;
+}
+.qty__btn:hover { background: rgba(13, 23, 32, 0.07); }
+.qty__btn[aria-disabled="true"] { opacity: 0.35; cursor: not-allowed; }
+.qty__btn[aria-disabled="true"]:hover { background: none; }
+.qty__input {
+  width: 72px;
+  padding: 0;
+  border: 0;
+  border-inline: 1px solid var(--color-line);
+  background: transparent;
+  text-align: center;
+  font-size: 1.15rem;
+  font-weight: 600;
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+.qty__input::-webkit-outer-spin-button,
+.qty__input::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
+
+/* ---------- Pricing tiers ---------- */
+.tiers { display: grid; gap: 8px; }
+.tier {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-line);
+  border-radius: var(--radius);
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+.tier__info { display: flex; flex-direction: column; }
+.tier__range { font-weight: 600; }
+.tier__name { font-size: 0.82rem; color: var(--color-muted); }
+.tier__side { display: flex; align-items: center; gap: 12px; text-align: right; }
+.tier__price { font-family: var(--font-display); font-size: 1.4rem; font-weight: 700; letter-spacing: 0.02em; white-space: nowrap; }
+.tier__badge {
+  visibility: hidden;
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: var(--color-accent);
+  color: var(--color-secondary);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+.tier--active { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-bg); }
+.tier--active .tier__name { color: rgba(244, 240, 231, 0.75); }
+.tier--active .tier__price { color: var(--color-accent); }
+.tier--active .tier__badge { visibility: visible; }
+
+.tier-pill {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 2px;
+  background: rgba(16, 37, 31, 0.1);
+  color: var(--color-primary);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ---------- Loading / error / empty messages ---------- */
+.status-block {
+  padding: 48px 24px;
+  text-align: center;
+  background: var(--color-surface);
+  border: 1px dashed var(--color-line-strong);
+  border-radius: var(--radius);
+  color: var(--color-muted);
+  font-size: 1.05rem;
+}
+.status-block .btn { margin-top: 20px; }
+
+/* ---------- Toast ---------- */
+.toast-region {
+  position: fixed;
+  left: 0; right: 0; bottom: 20px;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  padding-inline: 16px;
+  pointer-events: none;
+}
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  max-width: 520px;
+  padding: 14px 18px;
+  background: var(--color-secondary);
+  color: var(--color-bg);
+  border-left: 4px solid var(--color-accent);
+  border-radius: var(--radius);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+  font-size: 0.95rem;
+  pointer-events: auto;
+  animation: toast-in 0.2s ease;
+  --focus-color: var(--color-accent);
+}
+.toast__link { color: var(--color-accent); font-weight: 600; white-space: nowrap; }
+@keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+/* ---------- Forms ---------- */
+.form-field + .form-field { margin-top: 18px; }
+.form-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.form-input {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--color-surface);
+  border: 1.5px solid var(--color-line-strong);
+  border-radius: var(--radius);
+  font-size: 1rem; /* 16px avoids zoom on iOS */
+  transition: border-color 0.15s ease;
+}
+.form-input:focus { border-color: var(--color-primary); }
+textarea.form-input { min-height: 140px; resize: vertical; }
+.form-status {
+  margin-top: 18px;
+  padding: 12px 16px;
+  border-left: 3px solid var(--color-accent);
+  background: rgba(201, 164, 92, 0.14);
+  font-size: 0.95rem;
+}
+
+/* ---------- Filter chips ---------- */
+.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 28px; }
+.chip {
+  min-height: 44px;
+  padding: 8px 20px;
+  background: transparent;
+  border: 1.5px solid var(--color-line-strong);
+  border-radius: 999px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+.chip:hover { background: rgba(13, 23, 32, 0.07); }
+.chip[aria-pressed="true"] { background: var(--color-primary); border-color: var(--color-primary); color: var(--color-bg); }
+
+/* ---------- Specifications list ---------- */
+.specs { border-top: 1px solid var(--color-line); }
+.specs__row {
+  display: grid;
+  grid-template-columns: 38% 1fr;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--color-line);
+}
+.specs dt { color: var(--color-muted); font-size: 0.92rem; }
+.specs dd { margin: 0; font-weight: 500; }
